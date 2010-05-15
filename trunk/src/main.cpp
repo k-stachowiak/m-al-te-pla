@@ -1,3 +1,4 @@
+#include <iostream>
 #include <fstream>
 
 #include "krzysiek/results_container.h"
@@ -8,12 +9,13 @@
 #include "mpiech/pph_hash_map.h"
 #include "mpiech/grouping_functions.h"
 
-size_t get_trees_pph(network_abstraction& network, int multicast_nodes_count,
-	std::vector<size_t>& multicast_nodes, int delta, int load) {
+size_t get_trees_pph(network_abstraction& network, int delta, int load) {
 
 	size_t trees = 0;
 	while (network_helper::is_connected(network)) {
 
+		size_t multicast_nodes_count = 80;
+		std::vector<size_t> multicast_nodes;
 		grouping::high_degree(network, multicast_nodes_count, multicast_nodes);
 
 		network_path path;
@@ -44,25 +46,17 @@ int main() {
 	size_t networks_count = 5;
 	size_t repetitions_per_network = 10;
 	size_t edges_count = 20576;
-	size_t multicast_nodes_count = 80;
 
 	int delta = 2000000;
 	int load = 10;
-
-	std::vector<size_t> multicast_nodes;
 
 	for (size_t i = 0; i < networks_count; ++i) {
 		network_abstraction network;
 		network_helper::load_network_from_file(input, edges_count, network);
 
 		for (size_t j = 0; j < repetitions_per_network; ++j) {
-			// Uwaga, konstruktor kopiujący został zdefiniowany!
-			network_abstraction network_copy;
-			network_copy = network;
-
-			size_t trees = get_trees_pph(network_copy, multicast_nodes_count,
-				multicast_nodes, delta, load);
-
+			network_abstraction network_copy(network);
+			size_t trees = get_trees_pph(network_copy, delta, load);
 			results.insert_result("PPH", i, trees);
 		}
 	}

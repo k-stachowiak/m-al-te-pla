@@ -54,8 +54,8 @@ network_abstraction::network_abstraction() :
 network_abstraction::network_abstraction(const network_abstraction& copy) :
 	nodes_count(-1) {
 
-	graph_hash_map::iterator i;
-	for (i = graph.begin(); i != graph.end(); ++i) {
+	graph_hash_map::const_iterator i;
+	for (i = copy.graph.begin(); i != copy.graph.end(); ++i) {
 		set_link_desc(i->first.first, i->first.second, i->second);
 	}
 }
