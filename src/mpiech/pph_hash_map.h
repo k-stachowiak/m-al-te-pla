@@ -70,7 +70,10 @@ int PrimPPH_HM(network_abstraction& network, int *edge1, int *edge2, int n, int 
 //--------------------------------------------------------------------------------------------------
 
 
-int PPH_HM(network_abstraction& network, std::vector<size_t>& M, int n, int m, int delta, network_path& path) {
+int PPH_HM(network_abstraction& network, std::vector<size_t>& M, int delta, network_path& path) {
+
+	int n = network.get_nodes_count();
+	int m = M.size();
 
 	int s = M[0];
 	int i, j, k, v, vv, l, p, nt, last_seed, total = 0, sim, temp1, temp2,
