@@ -1,4 +1,4 @@
-#include "network_abstraction.h"
+#include "network.h"
 
 link_desc::link_desc() :
 	cost(default_cost), delay(default_delay) {

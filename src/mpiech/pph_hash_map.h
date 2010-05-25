@@ -1,4 +1,4 @@
-#include "../krzysiek/network_abstraction.h"
+#include "../krzysiek/network.h"
 
 //------------------------- funkcja wyznacza min. drzewo algorytmem Prima-Dijkstry -----------------
 
