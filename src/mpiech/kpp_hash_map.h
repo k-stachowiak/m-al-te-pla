@@ -2,8 +2,8 @@
 
 //------------------------- funkcja wyznacza min. sciezke algorytmem Dijkstry ----------------------
 
-int DijkstraKPP_HM(int n, int *Path, int s, int t,
-	int &pathdelay, network_abstraction& network) {
+int DijkstraKPP_HM(int n, int *Path, int s, int t, int &pathdelay,
+	network_t& network) {
 
 	int i, j, v, x, u, endcost, recent, newcost, mincost = 999999999;
 	int k = 1;
@@ -67,7 +67,7 @@ int DijkstraKPP_HM(int n, int *Path, int s, int t,
 		k++;
 		Path[k - 1] = v;
 
-		if(network.has_link(v, pred[v])) {
+		if (network.has_link(v, pred[v])) {
 			pathdelay += network.get_delay(v, pred[v]);
 		}
 
@@ -90,7 +90,7 @@ int DijkstraKPP_HM(int n, int *Path, int s, int t,
 
 //------------------------- funkcja wyznacza min. drzewo algorytmem Prima-Dijkstry -----------------
 
-int PrimKPP_HM(int **G, int *M, int *edge1, int *edge2, int m, int s) {
+int PrimKPP_HM(int **G, std::vector<size_t>& M, int *edge1, int *edge2, int m, int s) {
 
 	int totalcost, totalcount, min, u, i, j;
 	int *nearest;
@@ -212,8 +212,11 @@ int PrimFinalKPP_HM(int **T, int *edge3, int *edge4, int n, int s, int nt) {
 //--------------------------------------------------------------------------------------------------
 
 
-int KPP_HM(network_abstraction& network, int *M, int n,
-	int m, int delta, int **S) {
+int KPP_HM(network_t& network, std::vector<size_t>& M, int delta,
+	network_path& path) {
+
+	int n = network.get_nodes_count();
+	int m = M.size();
 
 	int i, j, k, v, l, p, nt, last_seed, total = 0, sim, temp1, temp2;
 	int all, av_path, niespojny, Gsum, seria;
@@ -394,14 +397,10 @@ int KPP_HM(network_abstraction& network, int *M, int n,
 		}
 
 		costKPP = 0;
-		for (i = 0; i < n; i++)
-			for (j = 0; j < n; j++)
-				S[i][j] = 0;
-
 		for (k = 0; k < nt - 1; k++) {
 			if (edge3[k] != -1) {
 				double c;
-				if(network.has_link(edge3[k], edge4[k])) {
+				if (network.has_link(edge3[k], edge4[k])) {
 					c = network.get_cost(edge3[k], edge4[k]);
 
 				} else {
@@ -410,8 +409,7 @@ int KPP_HM(network_abstraction& network, int *M, int n,
 				}
 
 				costKPP += c;
-				S[edge3[k]][edge4[k]] = c;
-				S[edge4[k]][edge3[k]] = c;
+				path.add_link(edge3[k], edge4[k]);
 			}
 		}
 

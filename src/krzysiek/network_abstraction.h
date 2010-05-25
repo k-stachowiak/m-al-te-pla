@@ -1,6 +1,7 @@
 #ifndef NETWORK_ABSTRACTION_H
 #define NETWORK_ABSTRACTION_H
 
+#include <set>
 #include <utility>
 #include <hash_map>
 #include <stdint.h>
@@ -52,33 +53,65 @@ private:
 	path_hash_map path;
 };
 
-typedef hash_map<int_pair, link_desc, int_pair_hash, int_pair_compare>
-	graph_hash_map;
-
-class network_abstraction {
+class network_t {
 public:
-	network_abstraction();
-	network_abstraction(const network_abstraction& copy);
-	virtual ~network_abstraction();
+	network_t() :
+		nodes_count(-1) {
+	}
 
-	void set_cost(uint32_t from, uint32_t to, double new_cost);
-	void set_delay(uint32_t from, uint32_t to, double new_delay);
+	virtual ~network_t() {
+	}
 
-	void set_link_desc(uint32_t from, uint32_t to, const link_desc& ld);
+	virtual network_t* make_clone() {
+		throw;
+	}
 
-	double get_cost(uint32_t from, uint32_t to);
-	double get_delay(uint32_t from, uint32_t to);
+	virtual void dispose_clone(network_t* network) {
+		throw;
+	}
 
-	link_desc get_link_desc(uint32_t from, uint32_t to);
+	virtual void set_cost(uint32_t from, uint32_t to, double new_cost) {
+		throw;
+	}
 
-	uint32_t get_nodes_count();
+	virtual void set_delay(uint32_t from, uint32_t to, double new_delay) {
+		throw;
+	}
 
-	bool has_link(const int_pair& pair);
-	bool has_link(uint32_t from, uint32_t to);
+	virtual void set_link_desc(uint32_t from, uint32_t to, const link_desc& ld) {
+		throw;
+	}
 
-private:
-	int64_t nodes_count;
-	graph_hash_map graph;
+	virtual double get_cost(uint32_t from, uint32_t to) {
+		throw;
+	}
+
+	virtual double get_delay(uint32_t from, uint32_t to) {
+		throw;
+	}
+
+	virtual link_desc get_link_desc(uint32_t from, uint32_t to) {
+		throw;
+	}
+
+	virtual uint32_t get_nodes_count() {
+		throw;
+	}
+
+	virtual void get_nodes_list(std::vector<size_t>& result, size_t limit) const {
+		throw;
+	}
+
+	virtual bool has_link(const int_pair& pair) {
+		throw;
+	}
+
+	virtual bool has_link(uint32_t from, uint32_t to) {
+		throw;
+	}
+
+protected:
+	uint32_t nodes_count;
 };
 
 #endif /* NETWORK_ABSTRACTION_H */

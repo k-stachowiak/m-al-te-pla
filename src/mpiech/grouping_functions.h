@@ -32,7 +32,13 @@ private:
 	size_t neighbours_count;
 };
 
-void high_degree(network_abstraction& network, int multicast_nodes,
+void simple(network_t& network, int multicast_nodes, std::vector<
+	size_t>& result) {
+
+	network.get_nodes_list(result, multicast_nodes);
+}
+
+void high_degree(network_t& network, int multicast_nodes,
 	std::vector<size_t>& result) {
 
 	size_t nodes_count = network.get_nodes_count();

@@ -7,16 +7,16 @@
 
 namespace network_helper {
 
-void dfs_mark_visits(size_t current_node, network_abstraction& network,
+void dfs_mark_visits(size_t current_node, network_t& network,
 	std::vector<bool>& visit_map);
 
-bool is_connected(network_abstraction& network);
+bool is_connected(network_t& network);
 
-void increase_costs_due_to_transmission_load(network_abstraction& network,
+void increase_costs_due_to_transmission_load(network_t& network,
 	network_path& path, int load);
 
 void load_network_from_file(std::ifstream& input, size_t num_edges,
-	network_abstraction& network);
+	network_t& network);
 
 }
 

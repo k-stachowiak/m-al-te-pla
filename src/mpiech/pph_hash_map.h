@@ -2,7 +2,7 @@
 
 //------------------------- funkcja wyznacza min. drzewo algorytmem Prima-Dijkstry -----------------
 
-int PrimPPH_HM(network_abstraction& network, int *edge1, int *edge2, int n, int s, int nt) {
+int PrimPPH_HM(network_t& network, int *edge1, int *edge2, int n, int s, int nt) {
 
 	int totalcost, totalcount, min, u, i, j;
 	int *nearest;
@@ -70,7 +70,7 @@ int PrimPPH_HM(network_abstraction& network, int *edge1, int *edge2, int n, int 
 //--------------------------------------------------------------------------------------------------
 
 
-int PPH_HM(network_abstraction& network, std::vector<size_t>& M, int delta, network_path& path) {
+int PPH_HM(network_t& network, std::vector<size_t>& M, int delta, network_path& path) {
 
 	int n = network.get_nodes_count();
 	int m = M.size();
