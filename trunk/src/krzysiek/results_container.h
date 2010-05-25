@@ -2,6 +2,7 @@
 #define RESULTS_CONTAINER_H
 
 #include <stdint.h>
+#include <iostream>
 #include <vector>
 #include <map>
 #include <string>
@@ -14,11 +15,11 @@ public:
 
 	~results_container() {
 		algorithm_results_t::iterator i;
-		for(i = algorithm_results.begin(); i != algorithm_results.end(); ++i) {
+		for (i = algorithm_results.begin(); i != algorithm_results.end(); ++i) {
 
 			graph_results_t* graph_results = i->second;
 			graph_results_t::iterator j;
-			for(j = graph_results->begin(); j != graph_results->end(); ++j) {
+			for (j = graph_results->begin(); j != graph_results->end(); ++j) {
 				results_list_t* results_list = j->second;
 				delete results_list;
 
@@ -46,6 +47,26 @@ public:
 		}
 
 		(*graph_result)[graph_id]->push_back(result);
+	}
+
+	void print() {
+		for (algorithm_results_t::iterator i = algorithm_results.begin(); i
+			!= algorithm_results.end(); ++i) {
+
+			std::cout << "Algorytm: " << i->first << std::endl;
+
+			for (graph_results_t::iterator j = i->second->begin(); j
+				!= i->second->end(); ++j) {
+
+				std::cout << "\tGraf: " << j->first << std::endl;
+
+				for (std::vector<uint32_t>::iterator k = j->second->begin(); k
+					!= j->second->end(); ++k) {
+
+					std::cout << "\t\tWynik: " << *k << std::endl;
+				}
+			}
+		}
 	}
 
 private:

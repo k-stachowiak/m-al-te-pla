@@ -22,7 +22,7 @@ T draw_from_stream(std::ifstream& stream) {
 
 namespace network_helper {
 
-void dfs_mark_visits(size_t current_node, network_abstraction& network,
+void dfs_mark_visits(size_t current_node, network_t& network,
 	std::vector<bool>& visit_map) {
 
 	for (size_t i = 0; i < network.get_nodes_count(); i++) {
@@ -36,7 +36,7 @@ void dfs_mark_visits(size_t current_node, network_abstraction& network,
 
 }
 
-bool is_connected(network_abstraction& network) {
+bool is_connected(network_t& network) {
 	std::vector<bool> visits_map(network.get_nodes_count(), false);
 	visits_map[0] = true;
 
@@ -52,7 +52,7 @@ bool is_connected(network_abstraction& network) {
 	return true;
 }
 
-/* private */network_abstraction* current_network = NULL;
+/* private */network_t* current_network = NULL;
 /* private */int current_load = -1;
 
 /* private */void int_pair_presence_delegate(const int_pair_presence& ipp) {
@@ -68,20 +68,21 @@ bool is_connected(network_abstraction& network) {
 	double cost = current_network->get_cost(from, to);
 	if (cost > 0.0) {
 
-		int band = int(10000.0 / cost);
+		int band = int(1000000.0 / cost);
 		band = band - current_load;
 		if (band <= 0) {
 			current_network->set_cost(from, to, 0.0);
 
 		} else {
-			current_network->set_cost(from, to, int(10000.0 / band));
+			int new_cost = int(1000000.0 / band);
+			current_network->set_cost(from, to, new_cost);
 
 		}
 
 	}
 }
 
-void increase_costs_due_to_transmission_load(network_abstraction& network,
+void increase_costs_due_to_transmission_load(network_t& network,
 	network_path& path, int load) {
 
 	current_network = &network;
@@ -90,9 +91,9 @@ void increase_costs_due_to_transmission_load(network_abstraction& network,
 }
 
 void load_network_from_file(std::ifstream& input, size_t num_edges,
-	network_abstraction& network) {
+	network_t& network) {
 
-	size_t id = draw_from_stream<size_t>(input);
+	/* size_t id = */ draw_from_stream<size_t>(input);
 
 	size_t id_edge, begin, end, cost;
 	float delay;
