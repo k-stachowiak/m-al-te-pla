@@ -1,7 +1,7 @@
 #ifndef NETWORK_ARRAY_H_
 #define NETWORK_ARRAY_H_
 
-#include "network_abstraction.h"
+#include "network.h"
 
 class network_array_t: public network_t {
 public:

@@ -3,7 +3,7 @@
 
 #include <fstream>
 
-#include "network_abstraction.h"
+#include "network.h"
 
 namespace network_helper {
 

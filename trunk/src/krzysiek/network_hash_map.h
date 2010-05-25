@@ -1,7 +1,7 @@
 #ifndef NETWORK_HASH_MAP_H_
 #define NETWORK_HASH_MAP_H_
 
-#include "network_abstraction.h"
+#include "network.h"
 
 typedef hash_map<int_pair, link_desc, int_pair_hash, int_pair_compare>
 	graph_hash_map;
