@@ -98,10 +98,6 @@ public:
 		throw;
 	}
 
-	virtual void get_nodes_list(std::vector<size_t>& result, size_t limit) const {
-		throw;
-	}
-
 	virtual bool has_link(const int_pair& pair) {
 		throw;
 	}
@@ -111,7 +107,7 @@ public:
 	}
 
 protected:
-	uint32_t nodes_count;
+	int32_t nodes_count;
 };
 
 #endif /* NETWORK_ABSTRACTION_H */

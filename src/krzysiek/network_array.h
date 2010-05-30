@@ -8,13 +8,13 @@ public:
 	network_array_t(uint32_t new_nodes_count) {
 		nodes_count = new_nodes_count;
 		array = new link_desc*[nodes_count];
-		for (uint32_t i = 0; i < nodes_count; ++i) {
+		for (int32_t i = 0; i < nodes_count; ++i) {
 			array[i] = new link_desc[nodes_count];
 		}
 	}
 
 	virtual ~network_array_t() {
-		for (uint32_t i = 0; i < nodes_count; ++i) {
+		for (int32_t i = 0; i < nodes_count; ++i) {
 			delete[] array[i];
 		}
 
@@ -24,8 +24,8 @@ public:
 	network_t* make_clone() {
 		network_t* result = new network_array_t(nodes_count);
 
-		for (uint32_t i = 0; i < nodes_count; ++i) {
-			for (uint32_t j = 0; j < nodes_count; ++j) {
+		for (int32_t i = 0; i < nodes_count; ++i) {
+			for (int32_t j = 0; j < nodes_count; ++j) {
 				result->set_link_desc(i, j, array[i][j]);
 			}
 		}
@@ -71,9 +71,9 @@ public:
 	void get_nodes_list(std::vector<size_t>& result, size_t limit) const {
 		std::set<uint32_t> valid_ids;
 
-		for (uint32_t i = 0; i < nodes_count; ++i) {
+		for (int32_t i = 0; i < nodes_count; ++i) {
 			bool found_valid = false;
-			for (uint32_t j = 0; j < nodes_count; ++j) {
+			for (int32_t j = 0; j < nodes_count; ++j) {
 				if (!array[i][j].is_valid()) {
 					continue;
 				}

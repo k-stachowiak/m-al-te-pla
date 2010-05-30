@@ -120,29 +120,6 @@ public:
 		return (uint32_t) nodes_count;
 	}
 
-	void get_nodes_list(std::vector<size_t>& result, size_t limit) const {
-
-		std::set<size_t> unique_ids;
-		graph_hash_map::const_iterator i;
-		for (i = graph.begin(); i != graph.end(); ++i) {
-			unique_ids.insert(i->first.first);
-			unique_ids.insert(i->first.second);
-		}
-
-		result.clear();
-		result.reserve(unique_ids.size());
-		std::set<size_t>::iterator j;
-		for (j = unique_ids.begin(); j != unique_ids.end(); ++j) {
-			if(limit == 0) {
-				return;
-			}
-
-			result.push_back(*j);
-
-			--limit;
-		}
-	}
-
 	bool has_link(const int_pair& pair) {
 		graph_hash_map::iterator i = graph.find(pair);
 		if (i == graph.end()) {

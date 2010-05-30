@@ -1,18 +1,20 @@
 #include <iostream>
 #include <fstream>
+#include <new>
 
 #include <FastDelegate.h>
 
 #include "krzysiek/results_container.h"
 #include "krzysiek/network_array.h"
 #include "krzysiek/network_hash_map.h"
+#include "krzysiek/network_boost.h"
 #include "krzysiek/network_helper.h"
 
-typedef fastdelegate::FastDelegate3<network_t&, int, std::vector<
-	size_t>& > grouping_func_t;
+typedef fastdelegate::FastDelegate3<network_t&, int, std::vector<size_t>&>
+	grouping_func_t;
 
-typedef fastdelegate::FastDelegate4<network_t&, std::vector<size_t>&,
-	int, network_path&, int> algorithm_func_t;
+typedef fastdelegate::FastDelegate4<network_t&, std::vector<size_t>&, int,
+	network_path&, int> algorithm_func_t;
 
 #include "mpiech/kpp_hash_map.h"
 #include "mpiech/pph_hash_map.h"
@@ -50,13 +52,13 @@ int main() {
 	int delta = 2000000;
 	int load = 10;
 
-	size_t networks_count = 2;
+	size_t networks_count = 20;
 	size_t repetitions_per_network = 1;
-	size_t nodes_count = 10000;
-	size_t edges_count = 20576;
+	size_t nodes_count = 5000;
+	size_t edges_count = 8691;
 
 	std::ifstream input;
-	input.open("networks.txt");
+	input.open("networks_n5000_100.txt");
 
 	results_container results;
 
@@ -65,19 +67,30 @@ int main() {
 		network_helper::load_network_from_file(input, edges_count, *network);
 
 		for (size_t j = 0; j < repetitions_per_network; ++j) {
-
 			{
 				network_t* copy = network->make_clone();
 
 				size_t trees = get_trees_count(*copy, delta, load,
-					grouping_func_t(&grouping::high_degree),
-					algorithm_func_t(&PPH_HM));
+					grouping_func_t(&grouping::high_degree), algorithm_func_t(
+						&PPH_HM));
 
 				results.insert_result("KPP", i, trees);
 
 				network->dispose_clone(copy);
 			}
+/*
+			{
+				network_t* copy = network->make_clone();
 
+				size_t trees = get_trees_count(*copy, delta, load,
+					grouping_func_t(&grouping::high_degree), algorithm_func_t(
+						&KPP_HM));
+
+				results.insert_result("KPP", i, trees);
+
+				network->dispose_clone(copy);
+			}
+			*/
 		}
 
 		delete network;
